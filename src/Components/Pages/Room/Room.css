@@ -8,6 +8,7 @@
   display: flex;
   flex-direction: row;
 }
+
 .video {
   width: 80vw;
   background-color: aquamarine;
@@ -15,13 +16,46 @@
 }
 
 .chat {
+  display: flex;
+  flex-direction: column;
   width: 20vw;
   background-color: blue;
   height: 90vh;
 }
 
+.display-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 15px;
+  border-radius: 15px;
+  font-size: 1.8vw;
+  background-color: #242526;
+  padding: 15px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  color: aliceblue;
+}
+
 .bottom-bar {
-  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 10vh;
   width: 100vw;
+}
+
+.end-call-btn {
+  background-color: red;
+  color: white;
+  padding: 8px;
+  border-radius: 40px;
+  padding-bottom: 5px;
+  border: none;
+  margin: 5px;
+}
+
+.end-call-btn:hover {
+  background-color: #eb514f;
 }

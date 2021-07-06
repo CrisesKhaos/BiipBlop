@@ -30,35 +30,57 @@ const styles = makeStyles({
 
 function Home(props) {
   const [data, setdata] = useState({});
-
+  const [code, setcode] = useState("");
   const classes = styles();
 
   useEffect(() => {
-    console.log(props.location.state.token + "bruhhhhhhhh");
     if (props.location.state.token) {
+      console.log(props.location.state.token);
+      console.log("wentin");
       getUserData();
     }
   }, [props.location.state.token]);
+  var db = firebase.database().ref();
 
   const createRoom = () => {
-    var db = firebase.database().ref();
     const id = uuidv4().substring(0, 3);
     db.child("rooms")
       .child(id)
       .child("members")
-      .child(data.name)
-      .set({ pfp: data.picture, isHost: true });
-    props.history.push({ pathname: "/room", state: { roomId: id } });
+      .child(data.uid)
+      .set({ name: data.name, pfp: data.picture, isHost: true });
+    props.history.push({
+      pathname: "/room",
+      state: { roomId: id, uid: data.uid },
+    });
+  };
+
+  const joinRoom = () => {
+    db.child("rooms")
+      .child(code)
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          db.child("rooms")
+            .child(code)
+            .child("members")
+            .child(data.uid)
+            .set({ name: data.name, pfp: data.picture, isHost: false });
+          props.history.push({
+            pathname: "/room",
+            state: { roomId: code, uid: data.uid },
+          });
+        } else {
+          console.log("Room does not exist");
+        }
+      });
   };
 
   const getUserData = async () => {
     const res = await axios.get("http://localhost:5000/user-data", {
       headers: { Authorization: "bearer " + props.location.state.token },
     });
-    console.log(res.data);
     setdata(res.data);
-    const potty = await axios.get("http://localhost:5000/user-data");
-    console.log(potty);
   };
 
   return (
@@ -71,6 +93,10 @@ function Home(props) {
         <hr></hr>
         <div className="user-info1">
           <TextField
+            value={code}
+            onChange={(e) => {
+              setcode(e.target.value);
+            }}
             InputProps={{ className: classes.roomText }}
             fullWidth
             placeholder="A1B2"
@@ -79,6 +105,7 @@ function Home(props) {
             color="secondary"
           ></TextField>
           <Button
+            onClick={joinRoom}
             variant="contained"
             color="secondary"
             size="medium"

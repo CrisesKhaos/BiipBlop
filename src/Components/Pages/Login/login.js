@@ -15,7 +15,6 @@ function Login() {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((userCreds) => {
       userCreds.getIdToken().then((token) => {
-        console.log(token);
         settoken(token);
       });
     });
@@ -28,7 +27,7 @@ function Login() {
       .then((userCreds) => {
         if (userCreds) {
           setAuth(true);
-          console.log(userCreds);
+          console.log(userCreds.credential.idToken);
           localStorage.setItem("bb-auth", "true");
         }
       });
