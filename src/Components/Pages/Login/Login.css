@@ -1,0 +1,39 @@
+.grid-container {
+  position: absolute;
+  left: -4.4%;
+  right: 0%;
+  bottom: 0%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  overflow: hidden;
+  gap: 0 0;
+  max-height: 105vh;
+}
+
+.hi {
+  display: flex;
+  overflow: hidden;
+}
+.main-cont {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-card {
+  display: flex;
+  z-index: 1000;
+  position: absolute;
+  right: 50%;
+  bottom: 50%;
+  transform: translate(50%, 50%);
+  color: aliceblue;
+  font-size: 5rem;
+  min-width: 500px;
+  background-color: #242526;
+  border-radius: 5px;
+  margin: 15px;
+  min-height: 600px;
+  align-items: center;
+  justify-content: center;
+}

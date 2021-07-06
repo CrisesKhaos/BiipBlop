@@ -1,0 +1,27 @@
+.main-cont {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.one-row {
+  display: flex;
+  flex-direction: row;
+}
+.video {
+  width: 80vw;
+  background-color: aquamarine;
+  height: 90vh;
+}
+
+.chat {
+  width: 20vw;
+  background-color: blue;
+  height: 90vh;
+}
+
+.bottom-bar {
+  background-color: black;
+  height: 10vh;
+  width: 100vw;
+}
