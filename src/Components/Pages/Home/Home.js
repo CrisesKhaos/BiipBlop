@@ -47,6 +47,10 @@ function Home(props) {
       .child("members")
       .child(data.uid)
       .set({ name: data.name, pfp: data.picture, isHost: true });
+
+    db.child("rooms")
+      .child(id)
+      .update({ vinfo: { id: "dQw4w9WgXcQ", isPaused: false } });
     props.history.push({
       pathname: "/room",
       state: { roomId: id, uid: data.uid },

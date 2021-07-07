@@ -11,13 +11,28 @@
   flex-direction: row;
 }
 
-.video {
+.video-wrapper {
+  position: relative;
   background-color: #121213;
   border-radius: 15px;
   width: 80vw;
   height: 90vh;
 }
 
+.video {
+  border-radius: 15px;
+  width: 80vw;
+  height: 90vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.embed-overlay {
+  position: fixed;
+  z-index: 1000;
+  width: 80vw;
+  height: 90vh;
+}
 .chat {
   background-color: #121213;
   display: flex;

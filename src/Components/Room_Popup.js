@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./Room_Popup.css";
 function Room_Popup({ open, setopen, data, setid }) {
-  console.log("Modal Open");
   if (!open) return null;
   else
     return ReactDOM.createPortal(

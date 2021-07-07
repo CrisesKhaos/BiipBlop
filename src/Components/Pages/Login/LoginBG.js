@@ -34,7 +34,7 @@ function LoginBG() {
 
       <img
         alt="Album-Cover"
-        src="https://Album-Covers-na.ssl-Album-Covers-amazon.com/Album-Covers/I/81sKEPIbmxL._SL1500_.jpg"
+        src="https://i.scdn.co/image/ab67616d0000b2739e1cfc756886ac782e363d79"
         width="300px"
         height="300px"
       />
@@ -46,7 +46,7 @@ function LoginBG() {
       />
       <img
         alt="Album-Cover"
-        src="https://Album-Covers.complex.com/complex/Album-Cover/upload/c_fill,dpr_auto,f_auto,fl_lossy,g_face,q_auto,w_1280/hcjrqlvc6dfhpjxob9nt.jpg"
+        src="https://upload.wikimedia.org/wikipedia/en/b/b2/Lorde_-_Melodrama.png"
         width="300px"
         height="300px"
       />
@@ -76,7 +76,7 @@ function LoginBG() {
       />
       <img
         alt="Album-Cover"
-        src="https://Album-Covers-na.ssl-Album-Covers-amazon.com/Album-Covers/I/71GBsl4AoqL._SL1400_.jpg"
+        src="https://media.pitchfork.com/photos/609c2e93853a96fc7df31dec/1:1/w_320/J-Cole-The-Off-Season.jpg"
         width="300px"
         height="300px"
       />
@@ -88,7 +88,7 @@ function LoginBG() {
       />
       <img
         alt="Album-Cover"
-        src="https://Album-Covers.squarespace-cdn.com/content/v1/53b6eb62e4b06e0feb2d8e86/1594942678203-T2DZHNP3HW0BDATHQB5Z/ke17ZwdGBToddI8pDm48kLPswmMOqQZ9-Q6KHLjvbpZ7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QPOohDIaIeljMHgDF5CVlOqpeNLcJ80NK65_fV7S1UTcpTqfU-ZEsztPyQLxhSSK-PhJjRDDFQG0l3_ZnmWi1QjT9byXZM3ISxo3y1NRptg/SamSpratt_NoPressure_Cover_Final+copy.jpg?format=1500w"
+        src="https://i.scdn.co/image/ab67616d0000b27383c726c3768d0981c76acd38"
         width="300px"
         height="300px"
       />
@@ -148,19 +148,19 @@ function LoginBG() {
       />
       <img
         alt="Album-Cover"
-        src="https://Album-Covers-na.ssl-Album-Covers-amazon.com/Album-Covers/I/91dkpgT92CL._SL1500_.jpg"
+        src="https://images.squarespace-cdn.com/content/v1/53b6eb62e4b06e0feb2d8e86/1594942678203-T2DZHNP3HW0BDATHQB5Z/SamSpratt_NoPressure_Cover_Final+copy.jpg?format=1500w"
         width="300px"
         height="300px"
       />
       <img
         alt="Album-Cover"
-        src="https://i.scdn.co/Album-Cover/ab67616d0000b27310e6745bb2f179dd3616b85f"
+        src="https://upload.wikimedia.org/wikipedia/en/4/44/Kids_See_Ghosts_Cover.png"
         width="300px"
         height="300px"
       />
       <img
         alt="Album-Cover"
-        src="https://Album-Covers-na.ssl-Album-Covers-amazon.com/Album-Covers/I/511Z66tpj-L._SY355_.jpg"
+        src="https://images-na.ssl-images-amazon.com/images/I/81sKEPIbmxL._SL1500_.jpg"
         width="300px"
         height="300px"
       />

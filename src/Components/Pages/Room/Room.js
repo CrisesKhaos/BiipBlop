@@ -9,6 +9,7 @@ import YouTube from "react-youtube";
 import Room_Popup from "../../Room_Popup";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
+import ReactPlayer from "react-player/youtube";
 import axios from "axios";
 
 const styles = makeStyles({
@@ -39,7 +40,11 @@ export default function Room(props) {
   const [search, setsearch] = useState("");
   const [searchdata, setsearchdata] = useState({});
   const [isHost, setisHost] = useState(false);
+  const [player, setplayer] = useState({});
+  const [bypass, setbypass] = useState(false);
+  const [ready, setready] = useState(false);
   const [vid, setvid] = useState("dQw4w9WgXcQ");
+  const [playing, setplaying] = useState(true);
 
   const classes = styles();
   const db = firebase.database().ref();
@@ -80,6 +85,18 @@ export default function Room(props) {
     };
   }, []);
 
+  useEffect(async () => {
+    db.child("rooms")
+      .child(props.location.state.roomId)
+      .child("vinfo")
+      .on("value", (snapshot) => {
+        setplaying(!snapshot.val().isPaused);
+        if (snapshot.val().id !== vid) {
+          setvid(snapshot.val().id);
+        }
+      });
+  }, []);
+
   const getData = async () => {
     const res = await axios.get("http://localhost:5000/get-results", {
       headers: { id: search },
@@ -89,31 +106,87 @@ export default function Room(props) {
   };
 
   const opts = {
-    playerVars: {
-      disablekb: 1,
-      controls: 0,
-      autoplay: 1,
-      loop: 1,
-    },
+    autoplay: 1,
+    mute: 1,
+    disablekb: 1,
+    controls: 0,
+    loop: 1,
   };
 
+  const updatevid = (id) => {
+    db.child("rooms")
+      .child(props.location.state.roomId)
+      .child("vinfo")
+      .update({ id: id, isPaused: false });
+  };
+  const pausePlayback = (e) => {
+    console.log("Tried stopped");
+    if (isHost) {
+      db.child("rooms")
+        .child(props.location.state.roomId)
+        .child("vinfo")
+        .update({ isPaused: true });
+    } else {
+    }
+  };
+
+  const startPlayback = (e) => {
+    console.log("Tried playing");
+    if (isHost) {
+      console.log("hi");
+      db.child("rooms")
+        .child(props.location.state.roomId)
+        .child("vinfo")
+        .update({ isPaused: false });
+    } else {
+    }
+  };
+  // <YouTube
+  //   onStateChange={(e) => console.log(e.target.getCurrentTime())}
+  //   videoId={vid}
+  //   className="video"
+  //   opts={opts}
+  //   onPause={pausePlayback}
+  //   onPlay={startPlayback}
+  //   onReady={(e) => {
+  //     setplayer(e.target);
+  //     console.log("Set player");
+  //     setready(true);
+  //   }}
+  // />;
   return (
     <div className="main-cont">
       <Room_Popup
         open={modal}
         setopen={setmodal}
         data={searchdata}
-        setid={setvid}
+        setid={updatevid}
       />
       <div className="one-row">
-        <YouTube
-          videoId={vid}
-          className="video"
-          opts={opts}
-          onPause={(e) => {
-            !isHost ? e.target.playVideo() : console.log("Damn You the boss");
-          }}
-        />
+        <div className="video-wrapper">
+          {isHost ? null : (
+            <div
+              className="embed-overlay"
+              onClick={() => {
+                console.log("clicked");
+              }}
+            />
+          )}
+          <ReactPlayer
+            onPause={pausePlayback}
+            onPlay={startPlayback}
+            playing={playing}
+            width="100%"
+            height="100%"
+            url={`https://www.youtube.com/watch?v=${vid}`}
+            config={{
+              youtube: {
+                playerVars: opts,
+                embedOptions: {},
+              },
+            }}
+          />
+        </div>
         <div className="chat">
           {members &&
             Object.values(members).map((data) => {
@@ -155,7 +228,9 @@ export default function Room(props) {
           <button
             type="button"
             className="end-call-btn"
-            onClick={() => setvid("pXRviuL6vMY")}
+            onClick={() => {
+              setplaying(!playing);
+            }}
           >
             <MicOffIcon fontSize="large" />
           </button>
