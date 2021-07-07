@@ -2,8 +2,8 @@ import firebase from "firebase/app";
 import "firebase/database";
 import "./Room.css";
 import React, { useState, useEffect } from "react";
-//import MicIcon from "@material-ui/icons/Mic";
-import MicOffIcon from "@material-ui/icons/MicOff";
+import VolumeOffIcon from "@material-ui/icons/VolumeOff";
+import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import CallEndIcon from "@material-ui/icons/CallEnd";
 import YouTube from "react-youtube";
 import Room_Popup from "../../Room_Popup";
@@ -40,9 +40,7 @@ export default function Room(props) {
   const [search, setsearch] = useState("");
   const [searchdata, setsearchdata] = useState({});
   const [isHost, setisHost] = useState(false);
-  const [player, setplayer] = useState({});
-  const [bypass, setbypass] = useState(false);
-  const [ready, setready] = useState(false);
+  const [mute, setmute] = useState(false);
   const [vid, setvid] = useState("dQw4w9WgXcQ");
   const [playing, setplaying] = useState(true);
 
@@ -107,7 +105,6 @@ export default function Room(props) {
 
   const opts = {
     autoplay: 1,
-    mute: 1,
     disablekb: 1,
     controls: 0,
     loop: 1,
@@ -173,6 +170,8 @@ export default function Room(props) {
             />
           )}
           <ReactPlayer
+            volume="1"
+            muted={mute}
             onPause={pausePlayback}
             onPlay={startPlayback}
             playing={playing}
@@ -182,7 +181,6 @@ export default function Room(props) {
             config={{
               youtube: {
                 playerVars: opts,
-                embedOptions: {},
               },
             }}
           />
@@ -200,40 +198,57 @@ export default function Room(props) {
         </div>
       </div>
       <div className="bottom-bar">
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-            await getData();
-            setsearch("");
-            setmodal(true);
-          }}
-        >
-          <TextField
-            style={{ marginLeft: "4vw", color: "white" }}
-            onChange={(e) => {
-              setsearch(e.target.value);
-            }}
-            InputProps={{ className: classes.roomText }}
-            color="secondary"
-            size="large"
-            label="Search for a video"
-            fullWidth
-            variant="outlined"
-            value={search}
-            type="text"
-          />
-        </form>
-        Room Id : {props.location.state.roomId}
-        <div className="btns">
-          <button
-            type="button"
-            className="end-call-btn"
-            onClick={() => {
-              setplaying(!playing);
+        {isHost ? (
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              await getData();
+              setsearch("");
+              setmodal(true);
             }}
           >
-            <MicOffIcon fontSize="large" />
-          </button>
+            <TextField
+              style={{ marginLeft: "4vw", color: "white" }}
+              onChange={(e) => {
+                setsearch(e.target.value);
+              }}
+              InputProps={{ className: classes.roomText }}
+              color="secondary"
+              size="large"
+              label="Search for a video"
+              fullWidth
+              variant="outlined"
+              value={search}
+              type="text"
+            />
+          </form>
+        ) : null}
+        <div className="btns"> Room Id : {props.location.state.roomId}</div>
+        <div className="btns">
+          {mute ? (
+            <button
+              type="button"
+              className="end-call-btn"
+              onClick={() => {
+                setmute(false);
+                console.log(mute);
+              }}
+            >
+              <VolumeOffIcon fontSize="large" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="normal-btn"
+              onClick={() => {
+                setmute(true);
+                console.log(mute);
+              }}
+            >
+              <VolumeUpIcon fontSize="large" />
+            </button>
+          )}
+
           <button type="button" className="end-call-btn" onClick={leaveRoom}>
             <CallEndIcon fontSize="large" />
           </button>
