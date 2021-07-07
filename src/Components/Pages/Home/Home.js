@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Home.css";
-import { Button, Link, TextField } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { v4 as uuidv4 } from "uuid";
 import "firebase/database";
-import { useHistory } from "react-router-dom";
 import firebase from "firebase/app";
-import firebaseConfig from "../../../Config";
 const styles = makeStyles({
   roomText: {
     "& input:valid + fieldset": {
