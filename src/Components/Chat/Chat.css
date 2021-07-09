@@ -1,0 +1,38 @@
+.chat-cont-main {
+  overflow: hidden;
+  position: relative;
+  background-color: white;
+  height: inherit;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.chat-cont {
+  height: 80vh;
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+}
+
+.chat-ind {
+  margin: 10px;
+}
+
+.chat-name {
+  font-weight: bold;
+}
+.chat-msg {
+  font-size: 18px;
+}
+.textfield {
+  padding: 2px;
+  background-color: white;
+  position: fixed;
+  top: 82vh;
+  right: 0.5vw;
+  margin-right: 10px;
+  width: 18%;
+}

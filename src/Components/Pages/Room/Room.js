@@ -12,6 +12,8 @@ import { TextField } from "@material-ui/core";
 import ReactPlayer from "react-player/youtube";
 import axios from "axios";
 
+import Chat from "../../Chat/Chat";
+
 const styles = makeStyles({
   roomText: {
     "& input:valid + fieldset": {
@@ -138,6 +140,19 @@ export default function Room(props) {
     } else {
     }
   };
+
+  //  {
+  //    members &&
+  //      Object.values(members).map((data) => {
+  //        return (
+  //          <div key={Math.random() * 1000} className="display-card">
+  //            <img src={data.pfp} width="100vw" height="100vh" />
+  //            {data.name}
+  //          </div>
+  //        );
+  //      });
+  //  }
+
   // <YouTube
   //   onStateChange={(e) => console.log(e.target.getCurrentTime())}
   //   videoId={vid}
@@ -186,15 +201,10 @@ export default function Room(props) {
           />
         </div>
         <div className="chat">
-          {members &&
-            Object.values(members).map((data) => {
-              return (
-                <div key={Math.random() * 1000} className="display-card">
-                  <img src={data.pfp} width="100vw" height="100vh" />
-                  {data.name}
-                </div>
-              );
-            })}
+          <Chat
+            uid={props.location.state.uid}
+            roomId={props.location.state.roomId}
+          />
         </div>
       </div>
       <div className="bottom-bar">
