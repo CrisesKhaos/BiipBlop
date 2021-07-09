@@ -6,7 +6,7 @@ import SendRoundedIcon from "@material-ui/icons/SendRounded";
 import { TextField, Button, IconButton } from "@material-ui/core";
 import "./Chat.css";
 
-function Chat({ roomId, uid }) {
+function Chat({ roomId, uid, name }) {
   const [currentmsg, setcurrentmsg] = useState("");
   const [messages, setmessages] = useState({});
   const db = firebase.database().ref();
@@ -23,11 +23,12 @@ function Chat({ roomId, uid }) {
       });
   }, []);
 
-  const submithandler = () => {
+  const submithandler = (e) => {
+    e.preventDefault();
     db.child("messages")
       .child(roomId)
       .push()
-      .set({ uid: uid, msg: currentmsg });
+      .set({ name: name, msg: currentmsg });
     setcurrentmsg("");
   };
 
@@ -37,7 +38,7 @@ function Chat({ roomId, uid }) {
         {Object.values(messages).map((element, index) => {
           return (
             <div className="chat-ind">
-              <div className="chat-name">Vedant Tewari</div>
+              <div className="chat-name">{element.name}</div>
               <div className="chat-msg">{element.msg}</div>
             </div>
           );
@@ -53,8 +54,8 @@ function Chat({ roomId, uid }) {
                     children={
                       <SendRoundedIcon color="white" variant="primary" />
                     }
-                    onClick={() => {
-                      submithandler();
+                    onClick={(e) => {
+                      submithandler(e);
                     }}
                   ></IconButton>
                 </InputAdornment>

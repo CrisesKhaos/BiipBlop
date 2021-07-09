@@ -11,6 +11,7 @@
 .chat-cont {
   height: 80vh;
   overflow: scroll;
+  overflow-y: hidden;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -25,14 +26,22 @@
   font-weight: bold;
 }
 .chat-msg {
+  height: fit-content;
+  width: 10vw;
+  display: contents;
+  flex-direction: column;
+  flex-wrap: wrap;
   font-size: 18px;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
 }
 .textfield {
+  width: 18vw;
   padding: 2px;
   background-color: white;
   position: fixed;
-  top: 82vh;
-  right: 0.5vw;
+  top: 81vh;
+  right: 0.3vw;
   margin-right: 10px;
-  width: 18%;
+  border-radius: 15px;
 }

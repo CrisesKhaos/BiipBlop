@@ -4,7 +4,6 @@ import LoginBG from "./LoginBG";
 import firebase from "firebase/app";
 import "firebase/auth";
 import { Button } from "@material-ui/core";
-import Home from "../Home/Home";
 import { Redirect } from "react-router";
 function Login() {
   const [auth, setAuth] = useState(
@@ -12,11 +11,13 @@ function Login() {
   );
   const [token, settoken] = useState("");
 
-  useEffect(() => {
+  useEffect((props) => {
     firebase.auth().onAuthStateChanged((userCreds) => {
-      userCreds.getIdToken().then((token) => {
-        settoken(token);
-      });
+      if (userCreds)
+        userCreds.getIdToken().then((token) => {
+          console.log("State changesd auth");
+          settoken(token);
+        });
     });
   }, []);
 
@@ -26,8 +27,8 @@ function Login() {
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then((userCreds) => {
         if (userCreds) {
+          console.log("auth sign in");
           setAuth(true);
-          console.log(userCreds.credential.idToken);
           localStorage.setItem("bb-auth", "true");
         }
       });

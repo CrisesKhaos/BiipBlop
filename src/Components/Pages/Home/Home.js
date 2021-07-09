@@ -38,23 +38,40 @@ function Home(props) {
       getUserData();
     }
   }, [props.location.state.token]);
+
   var db = firebase.database().ref();
 
   const createRoom = () => {
     const id = uuidv4().substring(0, 3);
-    db.child("rooms")
-      .child(id)
-      .child("members")
-      .child(data.uid)
-      .set({ name: data.name, pfp: data.picture, isHost: true });
+    db.child("rooms").child(id).child("members").child(data.uid).set({
+      name: data.name,
+      pfp: data.picture,
+      isHost: true,
+      name: data.name,
+    });
 
     db.child("rooms")
       .child(id)
       .update({ vinfo: { id: "dQw4w9WgXcQ", isPaused: false } });
     props.history.push({
       pathname: "/room",
-      state: { roomId: id, uid: data.uid },
+      state: { roomId: id, uid: data.uid, name: data.name },
     });
+  };
+
+  const logoutHandler = async () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        localStorage.setItem("bb-auth", "false");
+        console.log("hiiiiiiiii");
+        console.log(localStorage.getItem("bb-auth"));
+        props.history.push("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const joinRoom = () => {
@@ -70,7 +87,7 @@ function Home(props) {
             .set({ name: data.name, pfp: data.picture, isHost: false });
           props.history.push({
             pathname: "/room",
-            state: { roomId: code, uid: data.uid },
+            state: { roomId: code, uid: data.uid, name: data.name },
           });
         } else {
           console.log("Room does not exist");
@@ -91,6 +108,9 @@ function Home(props) {
         <div className="user-info">
           <img src={data.picture} width="150px" height="150px" />
           <div> {data.name} </div>
+          <Button onClick={logoutHandler} variant="outlined" color="secondary">
+            Log Out
+          </Button>
         </div>
         <hr></hr>
         <div className="user-info1">

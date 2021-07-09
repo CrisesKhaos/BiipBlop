@@ -7,8 +7,9 @@ import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import CallEndIcon from "@material-ui/icons/CallEnd";
 import YouTube from "react-youtube";
 import Room_Popup from "../../Room_Popup";
+import ChatIcon from "@material-ui/icons/Chat";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField } from "@material-ui/core";
+import { Tab, Tabs, TextField } from "@material-ui/core";
 import ReactPlayer from "react-player/youtube";
 import axios from "axios";
 
@@ -45,7 +46,7 @@ export default function Room(props) {
   const [mute, setmute] = useState(false);
   const [vid, setvid] = useState("dQw4w9WgXcQ");
   const [playing, setplaying] = useState(true);
-
+  const [chat, setchat] = useState(false);
   const classes = styles();
   const db = firebase.database().ref();
 
@@ -68,7 +69,7 @@ export default function Room(props) {
       .on("value", (snapshot) => {
         if (snapshot.exists()) {
           setmembers(snapshot.val());
-          if (props.location.state.uid) {
+          if (props.location.state.uid && snapshot.exists()) {
             setisHost(snapshot.val()[props.location.state.uid].isHost);
           }
         } else {
@@ -141,18 +142,6 @@ export default function Room(props) {
     }
   };
 
-  //  {
-  //    members &&
-  //      Object.values(members).map((data) => {
-  //        return (
-  //          <div key={Math.random() * 1000} className="display-card">
-  //            <img src={data.pfp} width="100vw" height="100vh" />
-  //            {data.name}
-  //          </div>
-  //        );
-  //      });
-  //  }
-
   // <YouTube
   //   onStateChange={(e) => console.log(e.target.getCurrentTime())}
   //   videoId={vid}
@@ -201,10 +190,23 @@ export default function Room(props) {
           />
         </div>
         <div className="chat">
-          <Chat
-            uid={props.location.state.uid}
-            roomId={props.location.state.roomId}
-          />
+          {chat ? (
+            <Chat
+              uid={props.location.state.uid}
+              roomId={props.location.state.roomId}
+              name={props.location.state.name}
+            />
+          ) : (
+            members &&
+            Object.values(members).map((data) => {
+              return (
+                <div key={Math.random() * 1000} className="display-card">
+                  <img src={data.pfp} width="100vw" height="100vh" />
+                  {data.name}
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
       <div className="bottom-bar">
@@ -235,6 +237,15 @@ export default function Room(props) {
         ) : null}
         <div className="btns"> Room Id : {props.location.state.roomId}</div>
         <div className="btns">
+          <button
+            type="button"
+            className={chat ? "msg-btn-on" : "normal-btn"}
+            onClick={() => {
+              setchat(!chat);
+            }}
+          >
+            <ChatIcon fontSize="large" />
+          </button>
           {mute ? (
             <button
               type="button"

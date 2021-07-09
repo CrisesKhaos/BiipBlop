@@ -97,6 +97,16 @@
   margin: 5px;
 }
 
+.msg-btn-on {
+  background-color: #7393b3;
+  color: white;
+  padding: 8px;
+  border-radius: 40px;
+  padding-bottom: 5px;
+  border: none;
+  margin: 5px;
+}
+
 .end-call-btn:hover {
   background-color: #eb514f;
 }
