@@ -47,7 +47,7 @@ function Home(props) {
       name: data.name,
       pfp: data.picture,
       isHost: true,
-      name: data.name,
+      isdrpdwn: false,
     });
 
     db.child("rooms")
@@ -80,11 +80,12 @@ function Home(props) {
       .get()
       .then((snapshot) => {
         if (snapshot.exists()) {
-          db.child("rooms")
-            .child(code)
-            .child("members")
-            .child(data.uid)
-            .set({ name: data.name, pfp: data.picture, isHost: false });
+          db.child("rooms").child(code).child("members").child(data.uid).set({
+            name: data.name,
+            pfp: data.picture,
+            isHost: false,
+            isdrpdwn: false,
+          });
           props.history.push({
             pathname: "/room",
             state: { roomId: code, uid: data.uid, name: data.name },

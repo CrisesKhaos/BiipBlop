@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/database";
 import "./Room.css";
+import BuildIcon from "@material-ui/icons/Build";
 import React, { useState, useEffect } from "react";
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
@@ -9,11 +10,12 @@ import YouTube from "react-youtube";
 import Room_Popup from "../../Room_Popup";
 import ChatIcon from "@material-ui/icons/Chat";
 import { makeStyles } from "@material-ui/core/styles";
-import { Tab, Tabs, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import ReactPlayer from "react-player/youtube";
 import axios from "axios";
-
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Chat from "../../Chat/Chat";
+import Dropdown from "../../Dropdown/Dropdown";
 
 const styles = makeStyles({
   roomText: {
@@ -47,6 +49,7 @@ export default function Room(props) {
   const [vid, setvid] = useState("dQw4w9WgXcQ");
   const [playing, setplaying] = useState(true);
   const [chat, setchat] = useState(false);
+  const [dropdown, setdropdown] = useState([]);
   const classes = styles();
   const db = firebase.database().ref();
 
@@ -69,6 +72,8 @@ export default function Room(props) {
       .on("value", (snapshot) => {
         if (snapshot.exists()) {
           setmembers(snapshot.val());
+          setdropdown([...dropdown, false]);
+
           if (props.location.state.uid && snapshot.exists()) {
             setisHost(snapshot.val()[props.location.state.uid].isHost);
           }
@@ -142,6 +147,16 @@ export default function Room(props) {
     }
   };
 
+  const drpdwnhandler = (name) => {
+    const x = members;
+    Object.values(members).map((data, index) => {
+      if (data.name === name) {
+        x.isdrpdwn = !x.isdrpdwn;
+        console.log(members[index]);
+      }
+    });
+    setmembers(x);
+  };
   // <YouTube
   //   onStateChange={(e) => console.log(e.target.getCurrentTime())}
   //   videoId={vid}
@@ -198,11 +213,11 @@ export default function Room(props) {
             />
           ) : (
             members &&
-            Object.values(members).map((data) => {
+            Object.values(members).map((data, index) => {
+              console.log(dropdown[index]);
               return (
-                <div key={Math.random() * 1000} className="display-card">
-                  <img src={data.pfp} width="100vw" height="100vh" />
-                  {data.name}
+                <div key={Math.random() * 1000}>
+                  <Dropdown data={data} isHost={isHost} />
                 </div>
               );
             })
