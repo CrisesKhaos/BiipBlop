@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/database";
 import "./Room.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import CallEndIcon from "@material-ui/icons/CallEnd";
@@ -15,6 +15,7 @@ import axios from "axios";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Chat from "../../Chat/Chat";
 import Display_Card from "../../Display_Card/Display_Card";
+import io from "socket.io-client";
 
 const styles = makeStyles({
   roomText: {
@@ -38,6 +39,8 @@ const styles = makeStyles({
   },
 });
 
+const socket = io("http://localhost:5000/");
+
 export default function Room(props) {
   const [members, setmembers] = useState({});
   const [modal, setmodal] = useState(false);
@@ -50,6 +53,7 @@ export default function Room(props) {
   const [chat, setchat] = useState(false);
   const [dropdown, setdropdown] = useState([]);
   const classes = styles();
+  const player = useRef(null);
   const db = firebase.database().ref();
 
   const leaveRoom = async () => {
@@ -59,6 +63,9 @@ export default function Room(props) {
       .child("members")
       .child(props.location.state.uid)
       .remove();
+    socket.emit("dc");
+    window.location.reload();
+    socket.destroy();
     props.history.push({
       pathname: "/",
     });
@@ -102,6 +109,16 @@ export default function Room(props) {
       });
   }, []);
 
+  {
+    /* //!Mfs be using the socket stuff here to keep it clean up*/
+  }
+  useEffect(() => {
+    socket.on("recieve-time", (x) => {
+      player.current.seekTo(x);
+      console.log(x);
+    });
+  }, []);
+
   const getData = async () => {
     const res = await axios.get("http://localhost:5000/get-results", {
       headers: { id: search },
@@ -134,10 +151,13 @@ export default function Room(props) {
     }
   };
 
+  const updateTimings = (time) => {
+    socket.emit("send-time", time.playedSeconds);
+  };
+
   const startPlayback = (e) => {
     console.log("Tried playing");
     if (isHost) {
-      console.log("hi");
       db.child("rooms")
         .child(props.location.state.roomId)
         .child("vinfo")
@@ -188,6 +208,10 @@ export default function Room(props) {
             />
           )}
           <ReactPlayer
+            ref={player}
+            onProgress={(x) => {
+              if (isHost) updateTimings(x);
+            }}
             volume="1"
             muted={mute}
             onPause={pausePlayback}
@@ -213,7 +237,6 @@ export default function Room(props) {
           ) : (
             members &&
             Object.values(members).map((data, index) => {
-              console.log(data);
               return (
                 <div key={Math.random() * 1000}>
                   <Display_Card
@@ -260,6 +283,15 @@ export default function Room(props) {
             type="button"
             className={chat ? "msg-btn-on" : "normal-btn"}
             onClick={() => {
+              player.current.seekTo(0.5);
+            }}
+          >
+            hi
+          </button>
+          <button
+            type="button"
+            className={chat ? "msg-btn-on" : "normal-btn"}
+            onClick={() => {
               setchat(!chat);
             }}
           >
@@ -270,8 +302,7 @@ export default function Room(props) {
               type="button"
               className="end-call-btn"
               onClick={() => {
-                setmute(false);
-                console.log(mute);
+                setmute(!mute);
               }}
             >
               <VolumeOffIcon fontSize="large" />
@@ -281,8 +312,7 @@ export default function Room(props) {
               type="button"
               className="normal-btn"
               onClick={() => {
-                setmute(true);
-                console.log(mute);
+                setmute(!mute);
               }}
             >
               <VolumeUpIcon fontSize="large" />
