@@ -1,7 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/database";
 import "./Room.css";
-import BuildIcon from "@material-ui/icons/Build";
 import React, { useState, useEffect } from "react";
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
@@ -15,7 +14,7 @@ import ReactPlayer from "react-player/youtube";
 import axios from "axios";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Chat from "../../Chat/Chat";
-import Dropdown from "../../Dropdown/Dropdown";
+import Display_Card from "../../Display_Card/Display_Card";
 
 const styles = makeStyles({
   roomText: {
@@ -214,10 +213,15 @@ export default function Room(props) {
           ) : (
             members &&
             Object.values(members).map((data, index) => {
-              console.log(dropdown[index]);
+              console.log(data);
               return (
                 <div key={Math.random() * 1000}>
-                  <Dropdown data={data} isHost={isHost} />
+                  <Display_Card
+                    data={data}
+                    isHost={data.isHost}
+                    isUserHost={isHost}
+                    roomId={props.location.state.roomId}
+                  />
                 </div>
               );
             })

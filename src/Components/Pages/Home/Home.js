@@ -47,7 +47,7 @@ function Home(props) {
       name: data.name,
       pfp: data.picture,
       isHost: true,
-      isdrpdwn: false,
+      uid: data.uid,
     });
 
     db.child("rooms")
@@ -84,7 +84,7 @@ function Home(props) {
             name: data.name,
             pfp: data.picture,
             isHost: false,
-            isdrpdwn: false,
+            uid: data.uid,
           });
           props.history.push({
             pathname: "/room",
