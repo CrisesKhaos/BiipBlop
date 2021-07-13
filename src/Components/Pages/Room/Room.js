@@ -5,14 +5,12 @@ import React, { useState, useEffect, useRef } from "react";
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import CallEndIcon from "@material-ui/icons/CallEnd";
-import YouTube from "react-youtube";
 import Room_Popup from "../../Room_Popup";
 import ChatIcon from "@material-ui/icons/Chat";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
 import ReactPlayer from "react-player/youtube";
 import axios from "axios";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Chat from "../../Chat/Chat";
 import Display_Card from "../../Display_Card/Display_Card";
 import io from "socket.io-client";
@@ -52,11 +50,15 @@ export default function Room(props) {
   const [playing, setplaying] = useState(true);
   const [chat, setchat] = useState(false);
   const [dropdown, setdropdown] = useState([]);
+  const [error, seterror] = useState("");
   const classes = styles();
   const player = useRef(null);
   const db = firebase.database().ref();
 
   const leaveRoom = async () => {
+    props.history.push({
+      pathname: "/",
+    });
     await db
       .child("rooms")
       .child(props.location.state.roomId)
@@ -66,9 +68,6 @@ export default function Room(props) {
     socket.emit("dc");
     window.location.reload();
     socket.destroy();
-    props.history.push({
-      pathname: "/",
-    });
   };
 
   useEffect(async () => {
@@ -79,7 +78,6 @@ export default function Room(props) {
         if (snapshot.exists()) {
           setmembers(snapshot.val());
           setdropdown([...dropdown, false]);
-
           if (props.location.state.uid && snapshot.exists()) {
             setisHost(snapshot.val()[props.location.state.uid].isHost);
           }
@@ -140,7 +138,7 @@ export default function Room(props) {
     autoplay: 1,
     disablekb: 1,
     controls: 0,
-    loop: 1,
+    loop: 0,
   };
 
   const updatevid = (id) => {
@@ -190,7 +188,7 @@ export default function Room(props) {
   //   }}
   // />;
   return (
-    <div className="main-cont">
+    <div className="main-cont" onClick={(e) => {}}>
       <Room_Popup
         open={modal}
         setopen={setmodal}
@@ -203,11 +201,12 @@ export default function Room(props) {
             <div
               className="embed-overlay"
               onClick={() => {
-                console.log("clicked");
+                seterror("Only hosts can control the video playback 💀💀");
               }}
             />
           )}
           <ReactPlayer
+            loop={true}
             ref={player}
             onProgress={(x) => {
               if (isHost) updateTimings(x);
@@ -252,7 +251,12 @@ export default function Room(props) {
           )}
         </div>
       </div>
-      <div className="bottom-bar">
+      <div
+        className="bottom-bar"
+        onClick={() => {
+          seterror("");
+        }}
+      >
         {isHost ? (
           <form
             onSubmit={async (e) => {
@@ -278,15 +282,11 @@ export default function Room(props) {
             />
           </form>
         ) : null}
-        <div className="btns"> Room Id : {props.location.state.roomId}</div>
+        <div className="clmn">
+          <div className="btns"> Room Id : {props.location.state.roomId}</div>
+          <div className="error">{error}</div>
+        </div>
         <div className="btns">
-          <button
-            type="button"
-            className={chat ? "msg-btn-on" : "normal-btn"}
-            onClick={() => {}}
-          >
-            hi
-          </button>
           <button
             type="button"
             className={chat ? "msg-btn-on" : "normal-btn"}

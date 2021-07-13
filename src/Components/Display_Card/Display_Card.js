@@ -82,7 +82,7 @@ function Display_Card({ data, isHost, isUserHost, roomId }) {
         />
       </button>
       <div className="main-things-display">
-        <img src={data.pfp} width="100vw" height="100vh" />
+        <img src={data.pfp} width="100vw" height="100vh" alt="Pfp" />
         <div className="card-name-display">
           {data.name}
           {isHost ? "👑" : null}

@@ -57,11 +57,6 @@
   color: aliceblue;
 }
 
-.more-icon {
-  position: relative;
-  left: 500px;
-}
-
 .card-name-display {
   display: flex;
   flex-direction: row;
@@ -142,23 +137,14 @@
   margin-bottom: calc(-15.5vh);
 }
 
-.dropdown {
-  position: relative;
-  z-index: 1000;
+.clmn {
+  margin-left: 30px;
+  margin-right: 30px;
   display: flex;
-  width: 5.5vw;
-  height: 12vh;
-  right: -3.8vw;
-  top: 0.1vh;
-  background-color: white;
+  flex-direction: column;
 }
-.dropdown-close {
-  position: relative;
-  z-index: 1000;
-  display: flex;
-  width: 5.5vw;
-  height: 12vh;
-  right: -3.8vw;
-  top: 0.1vh;
-  background-color: transparent;
+
+.error {
+  font-size: 14px;
+  color: #ff2b2b;
 }

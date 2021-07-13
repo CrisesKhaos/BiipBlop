@@ -29,6 +29,7 @@ const styles = makeStyles({
 function Home(props) {
   const [data, setdata] = useState({});
   const [code, setcode] = useState("");
+  const [error, seterror] = useState("");
   const classes = styles();
 
   useEffect(() => {
@@ -80,18 +81,20 @@ function Home(props) {
       .get()
       .then((snapshot) => {
         if (snapshot.exists()) {
-          db.child("rooms").child(code).child("members").child(data.uid).set({
-            name: data.name,
-            pfp: data.picture,
-            isHost: false,
-            uid: data.uid,
-          });
-          props.history.push({
-            pathname: "/room",
-            state: { roomId: code, uid: data.uid, name: data.name },
-          });
+          if (!snapshot.val().members[data.uid]) {
+            db.child("rooms").child(code).child("members").child(data.uid).set({
+              name: data.name,
+              pfp: data.picture,
+              isHost: false,
+              uid: data.uid,
+            });
+            props.history.push({
+              pathname: "/room",
+              state: { roomId: code, uid: data.uid, name: data.name },
+            });
+          } else seterror("Bruh youre already in this meeting?🐒");
         } else {
-          console.log("Room does not exist");
+          seterror("Room does not exist. 🤡🤡");
         }
       });
   };
@@ -105,7 +108,12 @@ function Home(props) {
 
   return (
     <div className="main-cont">
-      <div className="home-card">
+      <div
+        className="home-card"
+        onClick={() => {
+          seterror("");
+        }}
+      >
         <div className="user-info">
           <img src={data.picture} width="150px" height="150px" />
           <div> {data.name} </div>
@@ -126,6 +134,8 @@ function Home(props) {
             label="Enter room code"
             variant="outlined"
             color="secondary"
+            error={error != ""}
+            helperText={error}
           ></TextField>
           <Button
             onClick={joinRoom}
