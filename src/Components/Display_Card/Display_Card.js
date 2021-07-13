@@ -13,7 +13,7 @@ function Display_Card({ data, isHost, isUserHost, roomId }) {
   const ref = useRef(null);
   const [drpdwn, setdrpdwn] = useState(false);
   var db = firebase.database().ref();
-  console.log(roomId + data.uid);
+
   useEffect(() => {
     /**
      * Alert if clicked on outside of element

@@ -47,7 +47,7 @@ export default function Room(props) {
   const [search, setsearch] = useState("");
   const [searchdata, setsearchdata] = useState({});
   const [isHost, setisHost] = useState(false);
-  const [mute, setmute] = useState(false);
+  const [mute, setmute] = useState(true);
   const [vid, setvid] = useState("dQw4w9WgXcQ");
   const [playing, setplaying] = useState(true);
   const [chat, setchat] = useState(false);
@@ -97,11 +97,15 @@ export default function Room(props) {
     };
   }, []);
 
+  {
+    /*video info */
+  }
   useEffect(async () => {
     db.child("rooms")
       .child(props.location.state.roomId)
       .child("vinfo")
       .on("value", (snapshot) => {
+        if (snapshot.val().isPaused) console.log("is puased");
         setplaying(!snapshot.val().isPaused);
         if (snapshot.val().id !== vid) {
           setvid(snapshot.val().id);
@@ -113,9 +117,15 @@ export default function Room(props) {
     /* //!Mfs be using the socket stuff here to keep it clean up*/
   }
   useEffect(() => {
+    socket.emit("join-room", props.location.state.roomId);
+
     socket.on("recieve-time", (x) => {
-      player.current.seekTo(x);
-      console.log(x);
+      var diff = player.current.getCurrentTime() - x;
+      if (diff < -3 || diff > 3) {
+        player.current.seekTo(x);
+        console.log(x);
+        return;
+      }
     });
   }, []);
 
@@ -124,7 +134,6 @@ export default function Room(props) {
       headers: { id: search },
     });
     setsearchdata(res.data);
-    console.log(searchdata);
   };
 
   const opts = {
@@ -140,8 +149,10 @@ export default function Room(props) {
       .child("vinfo")
       .update({ id: id, isPaused: false });
   };
+
   const pausePlayback = (e) => {
-    console.log("Tried stopped");
+    setplaying(false);
+    console.log("poti");
     if (isHost) {
       db.child("rooms")
         .child(props.location.state.roomId)
@@ -152,11 +163,10 @@ export default function Room(props) {
   };
 
   const updateTimings = (time) => {
-    socket.emit("send-time", time.playedSeconds);
+    socket.emit("send-time", time.playedSeconds, props.location.state.roomId);
   };
 
   const startPlayback = (e) => {
-    console.log("Tried playing");
     if (isHost) {
       db.child("rooms")
         .child(props.location.state.roomId)
@@ -166,16 +176,6 @@ export default function Room(props) {
     }
   };
 
-  const drpdwnhandler = (name) => {
-    const x = members;
-    Object.values(members).map((data, index) => {
-      if (data.name === name) {
-        x.isdrpdwn = !x.isdrpdwn;
-        console.log(members[index]);
-      }
-    });
-    setmembers(x);
-  };
   // <YouTube
   //   onStateChange={(e) => console.log(e.target.getCurrentTime())}
   //   videoId={vid}
@@ -211,6 +211,7 @@ export default function Room(props) {
             ref={player}
             onProgress={(x) => {
               if (isHost) updateTimings(x);
+              if (!playing) player.current.getInternalPlayer().pauseVideo();
             }}
             volume="1"
             muted={mute}
@@ -282,9 +283,7 @@ export default function Room(props) {
           <button
             type="button"
             className={chat ? "msg-btn-on" : "normal-btn"}
-            onClick={() => {
-              player.current.seekTo(0.5);
-            }}
+            onClick={() => {}}
           >
             hi
           </button>
