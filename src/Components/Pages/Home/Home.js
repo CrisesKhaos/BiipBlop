@@ -76,31 +76,40 @@ function Home(props) {
   };
 
   const joinRoom = () => {
-    db.child("rooms")
-      .child(code)
-      .get()
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          if (!snapshot.val().members[data.uid]) {
-            db.child("rooms").child(code).child("members").child(data.uid).set({
-              name: data.name,
-              pfp: data.picture,
-              isHost: false,
-              uid: data.uid,
-            });
-            props.history.push({
-              pathname: "/room",
-              state: { roomId: code, uid: data.uid, name: data.name },
-            });
-          } else seterror("Bruh youre already in this meeting?🐒");
-        } else {
-          seterror("Room does not exist. 🤡🤡");
-        }
-      });
+    if (code) {
+      console.log(`Joined Room ${code} bruh`);
+      db.child("rooms")
+        .child(code)
+        .get()
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            if (!snapshot.val().members[data.uid]) {
+              db.child("rooms")
+                .child(code)
+                .child("members")
+                .child(data.uid)
+                .set({
+                  name: data.name,
+                  pfp: data.picture,
+                  isHost: false,
+                  uid: data.uid,
+                });
+              props.history.push({
+                pathname: "/room",
+                state: { roomId: code, uid: data.uid, name: data.name },
+              });
+            } else seterror("Bruh youre already in this meeting?🐒");
+          } else {
+            seterror("Room does not exist. 🤡🤡");
+          }
+        });
+    } else {
+      console.log("Did not join Room");
+    }
   };
 
   const getUserData = async () => {
-    const res = await axios.get("http://localhost:5000/user-data", {
+    const res = await axios.get("https://blip-blop.herokuapp.com/user-data", {
       headers: { Authorization: "bearer " + props.location.state.token },
     });
     setdata(res.data);

@@ -37,7 +37,7 @@ const styles = makeStyles({
   },
 });
 
-const socket = io("http://localhost:5000/");
+const socket = io("https://blip-blop.herokuapp.com/");
 
 export default function Room(props) {
   const [members, setmembers] = useState({});
@@ -51,9 +51,22 @@ export default function Room(props) {
   const [chat, setchat] = useState(false);
   const [dropdown, setdropdown] = useState([]);
   const [error, seterror] = useState("");
+  const [stream, setstream] = useState(null);
+
   const classes = styles();
   const player = useRef(null);
   const db = firebase.database().ref();
+
+  const getPerms = async () => {
+    await navigator.mediaDevices
+      .getUserMedia({ audio: true, video: false })
+      .then((strm) => {
+        setstream(strm);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const leaveRoom = async () => {
     props.history.push({
@@ -87,7 +100,9 @@ export default function Room(props) {
           });
         }
       });
-
+    getPerms().then(() => {
+      console.log(stream);
+    });
     window.addEventListener("unload", leaveRoom);
     return () => {
       window.removeEventListener("unload", leaveRoom);
@@ -128,7 +143,7 @@ export default function Room(props) {
   }, []);
 
   const getData = async () => {
-    const res = await axios.get("http://localhost:5000/get-results", {
+    const res = await axios.get("https://blip-blop.herokuapp.com/get-results", {
       headers: { id: search },
     });
     setsearchdata(res.data);

@@ -1,4 +1,5 @@
--> Wrong code on homescreen
 -> Request Songs
 -> History
-\_>Cant join with same id
+
+XX ->Cant join with same id
+XX -> Wrong code on homescreen

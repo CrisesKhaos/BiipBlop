@@ -3,7 +3,6 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import BuildIcon from "@material-ui/icons/Build";
 import "./Display_Card.css";
 import MicOffIcon from "@material-ui/icons/MicOff";
-import InfoIcon from "@material-ui/icons/Info";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 
 import firebase from "firebase/app";

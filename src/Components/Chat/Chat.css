@@ -11,7 +11,6 @@
 .chat-cont {
   height: 80vh;
   overflow: scroll;
-  overflow-y: hidden;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -44,4 +43,8 @@
   right: 0.3vw;
   margin-right: 10px;
   border-radius: 15px;
+}
+
+.btm {
+  margin-top: 8vh;
 }

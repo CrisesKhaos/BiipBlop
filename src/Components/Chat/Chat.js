@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import firebase from "firebase/app";
 import "firebase/database";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -9,6 +9,8 @@ import "./Chat.css";
 function Chat({ roomId, uid, name }) {
   const [currentmsg, setcurrentmsg] = useState("");
   const [messages, setmessages] = useState({});
+
+  const btm = useRef(null);
   const db = firebase.database().ref();
 
   useEffect(() => {
@@ -19,16 +21,18 @@ function Chat({ roomId, uid, name }) {
         if (snapshot.exists()) {
           console.log("setmessages");
           setmessages(snapshot.val());
+          btm.current?.scrollIntoView({ behavior: "smooth" });
         }
       });
   }, []);
 
   const submithandler = (e) => {
     e.preventDefault();
-    db.child("messages")
-      .child(roomId)
-      .push()
-      .set({ name: name, msg: currentmsg });
+    if (currentmsg)
+      db.child("messages")
+        .child(roomId)
+        .push()
+        .set({ name: name, msg: currentmsg });
     setcurrentmsg("");
   };
 
@@ -43,6 +47,7 @@ function Chat({ roomId, uid, name }) {
             </div>
           );
         })}
+        <div ref={btm} className="btm" />
       </div>
       <div className="textfield">
         <form onSubmit={submithandler} fullwidth>
