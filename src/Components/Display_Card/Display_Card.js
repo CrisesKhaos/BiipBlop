@@ -76,7 +76,7 @@ function Display_Card({ data, isHost, isUserHost, roomId }) {
         }}
       >
         <MoreVertIcon
-          classname="more-icon"
+          classame="more-icon"
           color={isUserHost ? "error" : "disabled"}
         />
       </button>

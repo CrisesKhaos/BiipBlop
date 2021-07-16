@@ -7,13 +7,15 @@ import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import CallEndIcon from "@material-ui/icons/CallEnd";
 import Room_Popup from "../../Room_Popup";
 import ChatIcon from "@material-ui/icons/Chat";
+import axios from "axios";
+import Chat from "../../Chat/Chat";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
 import ReactPlayer from "react-player/youtube";
-import axios from "axios";
-import Chat from "../../Chat/Chat";
+
 import Display_Card from "../../Display_Card/Display_Card";
 import io from "socket.io-client";
+import Peer from "simple-peer";
 
 const styles = makeStyles({
   roomText: {
@@ -37,7 +39,8 @@ const styles = makeStyles({
   },
 });
 
-const socket = io("https://blip-blop.herokuapp.com/");
+//const socket = io("https://blip-blop.herokuapp.com/");
+const socket = io("http://localhost:5000");
 
 export default function Room(props) {
   const [members, setmembers] = useState({});
@@ -52,7 +55,10 @@ export default function Room(props) {
   const [dropdown, setdropdown] = useState([]);
   const [error, seterror] = useState("");
   const [stream, setstream] = useState(null);
+  const [userid, setuserid] = useState("");
+  const [socketids, setsocketids] = useState({});
 
+  const audioStream = useRef();
   const classes = styles();
   const player = useRef(null);
   const db = firebase.database().ref();
@@ -62,11 +68,15 @@ export default function Room(props) {
       .getUserMedia({ audio: true, video: false })
       .then((strm) => {
         setstream(strm);
+        if (audioStream.current) audioStream.current.srcObject = strm;
+        console.log("Set video");
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  const callUser = (id) => {};
 
   const leaveRoom = async () => {
     props.history.push({
@@ -100,9 +110,21 @@ export default function Room(props) {
           });
         }
       });
-    getPerms().then(() => {
-      console.log(stream);
-    });
+    db.child("rooms")
+      .child(props.location.state.roomId)
+      .child("sockets")
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          setsocketids = snapshot.val();
+        } else {
+          console.log("Id");
+        }
+      });
+
+    /* //!getting perms here  */
+    getPerms();
+    callUser();
+
     window.addEventListener("unload", leaveRoom);
     return () => {
       window.removeEventListener("unload", leaveRoom);
@@ -127,9 +149,24 @@ export default function Room(props) {
   }, []);
 
   {
-    /* //!Mfs be using the socket stuff here to keep it clean up*/
+    //*Mfs be using the socket stuff here to keep it clean up*/
   }
   useEffect(() => {
+    console.log("bruh");
+
+    socket.emit("getId");
+    console.log("bruh");
+    socket.on("giveId", (id) => {
+      const xy = props.location.state.uid;
+      setuserid(id);
+      console.log(id);
+      db.child("rooms")
+        .child(props.location.state.roomId)
+        .child("socketIds")
+        .child(props.location.state.uid)
+        .set(id);
+    });
+
     socket.emit("join-room", props.location.state.roomId);
 
     socket.on("recieve-time", (x) => {
@@ -266,6 +303,27 @@ export default function Room(props) {
           )}
         </div>
       </div>
+      {Object.values(socketids).forEach((tid, index) => {
+        const peer = new Peer({
+          initiator: true,
+          trickle: false,
+          stream: stream,
+        });
+
+        peer.on("signal", (data) => {
+          socket.emit("callUser", {
+            signaldata: data,
+            callerId: userid,
+            toCallId: tid,
+          });
+        });
+
+        peer.on("stream", (strm) => {
+          return <AudioStream audioStream={strm} ownerId={tid} />;
+        });
+
+        return <div />;
+      })}
       <div
         className="bottom-bar"
         onClick={() => {
