@@ -21,6 +21,7 @@
   justify-content: center;
 }
 .login-card {
+  flex-direction: column;
   display: flex;
   z-index: 1000;
   position: absolute;
@@ -35,5 +36,126 @@
   margin: 15px;
   min-height: 600px;
   align-items: center;
+  justify-content: space-evenly;
+  padding-top: 20px;
+}
+
+.login-field {
+  background-color: #121416;
+  color: white;
+  min-width: 350px;
+  border: 0px;
+  border-radius: 5px;
+  padding: 15px;
+
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+.column {
+  display: flex;
+  padding-top: 20px;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+}
+.error {
+  color: red;
+  font-size: 20px;
+}
+
+.sign-in {
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  color: white;
+  transition: 0.25s;
+  background: none;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em 2em;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.sign-in:hover,
+.sign-in:focus {
+  border-color: #f5f0ed;
+  box-shadow: 0 0.5em 0.5em -0.4em #f5f0ed;
+  transform: translateY(-0.25em);
+}
+
+.google-sign-in {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  color: #e4cb58;
+  transition: 0.25s;
+  background: none;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em 2em;
+  font-size: 17px;
+  text-decoration: none;
+}
+
+.google-sign-in:hover,
+.google-sign-in:focus {
+  border-color: #ebc726;
+  box-shadow: 0 0.5em 0.5em -0.4em #ebc726;
+  transform: translateY(-0.25em);
+}
+
+.github-sign-in {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  color: #a972cb;
+  transition: 0.25s;
+  background: none;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em 2em;
+  font-size: 17px;
+  text-decoration: none;
+}
+
+.github-sign-in:hover,
+.github-sign-in:focus {
+  border-color: #a972cb;
+  box-shadow: 0 0.5em 0.5em -0.4em #a972cb;
+  transform: translateY(-0.25em);
+}
+
+.x {
+  margin: 0px;
+  font-size: 300px;
+}
+
+.icon {
+  position: relative;
+  right: 20px;
+}
+
+.signup {
+  font-size: 15px;
+}
+
+.btns {
+  position: relative;
+  top: 10px;
+}
+
+.link {
+  color: rgb(47, 111, 230);
+  padding-left: 5px;
+  font-weight: bold;
 }
