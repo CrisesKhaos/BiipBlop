@@ -5,8 +5,10 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import { Button } from "@material-ui/core";
 import { Redirect } from "react-router";
+import TwitterIcon from "@material-ui/icons/Twitter";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import GTranslateRoundedIcon from "@material-ui/icons/GTranslateRounded";
+import FacebookIcon from "@material-ui/icons/Facebook";
 function Login() {
   const [auth, setAuth] = useState(
     false || localStorage.getItem("bb-auth") === "true"
@@ -62,10 +64,10 @@ function Login() {
       });
   };
 
-  const submitHandler = () => {
+  const loginWithFacebook = () => {
     firebase
       .auth()
-      .signInWithEmailAndPassword(email, pass)
+      .signInWithPopup(new firebase.auth.FacebookAuthProvider())
       .then((userCreds) => {
         if (userCreds) {
           console.log("auth sign in");
@@ -74,9 +76,8 @@ function Login() {
         }
       })
       .catch((error) => {
-        seterror(error.message);
-
         console.log(error);
+        seterror(error.message);
       });
   };
 
@@ -99,35 +100,8 @@ function Login() {
               }}
             >
               <img src="" width="100px" height="100px" />
-              <div className="column">
-                <input
-                  type="text"
-                  value={email}
-                  placeholder="Email"
-                  className="login-field"
-                  onChange={(e) => {
-                    setemail(e.target.value);
-                  }}
-                />
-                <input
-                  value={pass}
-                  type="text"
-                  placeholder="Password"
-                  className="login-field"
-                  onChange={(e) => {
-                    setpass(e.target.value);
-                  }}
-                />
-                <div className="error">{error}</div>
-                <button
-                  className="sign-in"
-                  color="primary"
-                  variant="contained"
-                  onClick={submitHandler}
-                >
-                  Sign In
-                </button>
-              </div>
+
+              {/*other btn*/}
               <div className="btns">
                 <button
                   className="google-sign-in"
@@ -139,6 +113,15 @@ function Login() {
                   Login with Google
                 </button>
                 <button
+                  className="facebook-sign-in"
+                  color="primary"
+                  variant="contained"
+                  onClick={loginWithFacebook}
+                >
+                  <FacebookIcon className="x" />
+                  Login with Facebook
+                </button>
+                <button
                   className="github-sign-in"
                   color="primary"
                   variant="contained"
@@ -147,12 +130,6 @@ function Login() {
                   <GitHubIcon className="x" />
                   Login with Github
                 </button>
-              </div>
-              <div className="signup">
-                Dont have an account?
-                <a href="/signup" className="link">
-                  Sign up
-                </a>
               </div>
             </div>
           </div>

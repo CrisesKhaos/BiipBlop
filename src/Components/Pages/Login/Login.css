@@ -37,6 +37,7 @@
   min-height: 600px;
   align-items: center;
   justify-content: space-evenly;
+  padding-bottom: 20px;
   padding-top: 20px;
 }
 
@@ -77,7 +78,7 @@
   margin: 0.5em;
   padding: 1em 2em;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 15px;
 }
 
 .sign-in:hover,
@@ -99,7 +100,7 @@
   font: inherit;
   line-height: 1;
   margin: 0.5em;
-  padding: 1em 2em;
+  padding: 15px;
   font-size: 17px;
   text-decoration: none;
 }
@@ -123,7 +124,7 @@
   font: inherit;
   line-height: 1;
   margin: 0.5em;
-  padding: 1em 2em;
+  padding: 15px;
   font-size: 17px;
   text-decoration: none;
 }
@@ -132,6 +133,56 @@
 .github-sign-in:focus {
   border-color: #a972cb;
   box-shadow: 0 0.5em 0.5em -0.4em #a972cb;
+  transform: translateY(-0.25em);
+}
+
+.facebook-sign-in {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  color: #2898e2;
+  transition: 0.25s;
+  background: none;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 15px;
+  font-size: 17px;
+  text-decoration: none;
+}
+
+.facebook-sign-in:hover,
+.facebook-sign-in:focus {
+  border-color: #28b7e2;
+  box-shadow: 0 0.5em 0.5em -0.4em #28b7e2;
+  transform: translateY(-0.25em);
+}
+.sign-up {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  color: #19bc8b;
+  transition: 0.25s;
+  background: none;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 18px;
+  font-size: 17px;
+  text-decoration: none;
+  list-style: none;
+}
+.xy {
+  text-decoration: none;
+}
+.sign-up:hover,
+.sign-up:focus {
+  border-color: #10f3af;
+  box-shadow: 0 0.5em 0.5em -0.4em #10f3af;
   transform: translateY(-0.25em);
 }
 

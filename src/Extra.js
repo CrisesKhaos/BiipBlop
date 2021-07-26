@@ -109,7 +109,6 @@
 // });
 //socket.emit("getId");
 
-
 //?getting the socket ids
 // db.child("rooms")
 //   .child(props.location.state.roomId)
@@ -121,3 +120,34 @@
 //       console.log("Id");
 //     }
 //   });
+
+//!e-mail login
+// <div className="column">
+//   <input
+//     type="text"
+//     value={email}
+//     placeholder="Email"
+//     className="login-field"
+//     onChange={(e) => {
+//       setemail(e.target.value);
+//     }}
+//   />
+//   <input
+//     value={pass}
+//     type="text"
+//     placeholder="Password"
+//     className="login-field"
+//     onChange={(e) => {
+//       setpass(e.target.value);
+//     }}
+//   />
+//   <div className="error">{error}</div>
+//   <button
+//     className="sign-in"
+//     color="primary"
+//     variant="contained"
+//     onClick={submitHandler}
+//   >
+//     Sign In
+//   </button>
+// </div>;
