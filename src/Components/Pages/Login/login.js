@@ -99,8 +99,6 @@ function Login() {
                 seterror("");
               }}
             >
-              <img src="" width="100px" height="100px" />
-
               {/*other btn*/}
               <div className="btns">
                 <button

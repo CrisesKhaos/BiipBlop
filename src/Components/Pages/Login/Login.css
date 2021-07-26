@@ -5,10 +5,15 @@
   bottom: 0%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
   overflow: hidden;
   gap: 0 0;
   max-height: 105vh;
+}
+
+.grid-img {
+  width: 300px;
+  height: 300px;
 }
 
 .hi {
@@ -159,45 +164,10 @@
   box-shadow: 0 0.5em 0.5em -0.4em #28b7e2;
   transform: translateY(-0.25em);
 }
-.sign-up {
-  width: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  color: #19bc8b;
-  transition: 0.25s;
-  background: none;
-  border: 2px solid;
-  font: inherit;
-  line-height: 1;
-  margin: 0.5em;
-  padding: 18px;
-  font-size: 17px;
-  text-decoration: none;
-  list-style: none;
-}
-.xy {
-  text-decoration: none;
-}
-.sign-up:hover,
-.sign-up:focus {
-  border-color: #10f3af;
-  box-shadow: 0 0.5em 0.5em -0.4em #10f3af;
-  transform: translateY(-0.25em);
-}
 
 .x {
   margin: 0px;
   font-size: 300px;
-}
-
-.icon {
-  position: relative;
-  right: 20px;
-}
-
-.signup {
-  font-size: 15px;
 }
 
 .btns {
@@ -205,8 +175,23 @@
   top: 10px;
 }
 
-.link {
-  color: rgb(47, 111, 230);
-  padding-left: 5px;
-  font-weight: bold;
+@media (max-width: 500px) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+  .grid-img {
+    height: calc((100vh / 7) + 10px);
+    width: calc((100vh / 7) + 10px);
+  }
+  .login-card {
+    max-width: 80vw;
+    min-width: 80vw;
+    min-height: fit-content;
+    max-height: fit-content;
+    margin: 0px;
+
+    padding: 20px;
+    padding-top: 0px;
+    font-size: 20px;
+  }
 }
