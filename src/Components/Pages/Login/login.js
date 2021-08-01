@@ -9,6 +9,7 @@ import TwitterIcon from "@material-ui/icons/Twitter";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import GTranslateRoundedIcon from "@material-ui/icons/GTranslateRounded";
 import FacebookIcon from "@material-ui/icons/Facebook";
+import Logo from "../../../Images/Logo_Icon_only.png";
 function Login() {
   const [auth, setAuth] = useState(
     false || localStorage.getItem("bb-auth") === "true"
@@ -92,15 +93,17 @@ function Login() {
         />
       ) : (
         <>
-          <div className="main-cont">
+          <div className="main-cont-home">
             <div
               className="login-card"
               onClick={() => {
                 seterror("");
               }}
             >
-              {/*other btn*/}
-              <div className="btns">
+              <img src={Logo} alt="Bitchass" className="logo" />
+              <div className="slogan">Sign in to BlipBlop</div>
+              {/* other btn*/}
+              <div className="btns-main">
                 <button
                   className="google-sign-in"
                   color="primary"

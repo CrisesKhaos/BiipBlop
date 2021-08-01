@@ -1,7 +1,12 @@
-.main-cont {
+.main-cont-home {
+  margin: 0px;
+  padding: 0px;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #121214;
 }
 
 .home-card {
@@ -13,11 +18,11 @@
   transform: translate(50%, 50%);
   color: aliceblue;
   font-size: 5rem;
-  min-width: 800px;
+  width: 800px;
   background-color: #242526;
   border-radius: 15px;
   margin: 15px;
-  min-height: 450px;
+  height: 450px;
   justify-content: space-around;
   flex-flow: row wrap;
   align-items: stretch;
@@ -48,4 +53,23 @@
 
 .room-code .clear {
   color: white;
+}
+
+@media (max-width: 500px) {
+  .home-card {
+    flex-direction: column;
+    width: calc(100vw - 20px);
+    height: fit-content;
+    margin: 0px;
+    font-size: 20px;
+  }
+  .user-info {
+    font-size: 35px;
+  }
+  .user-info1 {
+    font-size: 35px;
+  }
+  hr {
+    width: 80%;
+  }
 }

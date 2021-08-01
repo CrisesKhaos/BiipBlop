@@ -116,7 +116,7 @@ function Home(props) {
   };
 
   return (
-    <div className="main-cont">
+    <div className="main-cont-home">
       <div
         className="home-card"
         onClick={() => {
@@ -130,7 +130,7 @@ function Home(props) {
             Log Out
           </Button>
         </div>
-        <hr></hr>
+        <hr className="hr" />
         <div className="user-info1">
           <TextField
             value={code}
