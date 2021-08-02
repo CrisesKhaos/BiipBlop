@@ -54,3 +54,6 @@
   position: relative;
   left: 500px;
 }
+
+@media (max-width: 500px) {
+}

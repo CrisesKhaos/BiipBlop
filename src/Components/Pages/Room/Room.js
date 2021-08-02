@@ -14,6 +14,8 @@ import { TextField } from "@material-ui/core";
 import ReactPlayer from "react-player/youtube";
 import AudioStream from "../../AudioStream/AudioStream";
 import Display_Card from "../../Display_Card/Display_Card";
+import SearchIcon from "@material-ui/icons/Search";
+import SendRoundedIcon from "@material-ui/icons/SendRounded";
 import io from "socket.io-client";
 import Peer from "simple-peer";
 
@@ -54,7 +56,8 @@ export default function Room(props) {
   const [chat, setchat] = useState(false);
   const [dropdown, setdropdown] = useState([]);
   const [error, seterror] = useState("");
-
+  const [bar, setbar] = useState(false);
+  const [mobile, setmobile] = useState(false);
   const audioStream = useRef();
   const classes = styles();
   const player = useRef(null);
@@ -117,6 +120,8 @@ export default function Room(props) {
     /*video info */
   }
   useEffect(async () => {
+    if (window.innerWidth > 500) setmobile(true);
+
     db.child("rooms")
       .child(props.location.state.roomId)
       .child("vinfo")
@@ -252,94 +257,131 @@ export default function Room(props) {
               name={props.location.state.name}
             />
           ) : (
-            members &&
-            Object.values(members).map((data, index) => {
-              return (
-                <div key={Math.random() * 1000}>
-                  <Display_Card
-                    data={data}
-                    isHost={data.isHost}
-                    isUserHost={isHost}
-                    roomId={props.location.state.roomId}
-                  />
-                </div>
-              );
-            })
+            members && (
+              <div className="cards-cont">
+                {Object.values(members).map((data, index) => {
+                  return (
+                    <div key={Math.random() * 1000}>
+                      <Display_Card
+                        data={data}
+                        isHost={data.isHost}
+                        isUserHost={isHost}
+                        roomId={props.location.state.roomId}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            )
           )}
         </div>
       </div>
       <div className="audio"></div>
       <div
-        className="bottom-bar"
+        className={bar ? "bottom-bar-alt" : "bottom-bar"}
         onClick={() => {
           seterror("");
         }}
       >
         {isHost ? (
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              await getData();
-              setsearch("");
-              setmodal(true);
-            }}
-          >
-            <TextField
-              style={{ marginLeft: "4vw", color: "white" }}
+          mobile ? (
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                await getData();
+                setsearch("");
+                setmodal(true);
+              }}
+            >
+              <TextField
+                style={{ marginLeft: "4vw", color: "white" }}
+                onChange={(e) => {
+                  setsearch(e.target.value);
+                }}
+                InputProps={{ className: classes.roomText }}
+                color="secondary"
+                size="large"
+                label="Search for a video"
+                fullWidth
+                variant="outlined"
+                value={search}
+                type="text"
+              />
+            </form>
+          ) : (
+            <SearchIcon
+              fontSize={"large"}
+              className={bar ? "search-alt" : "search"}
+              onClick={() => {
+                setbar(!bar);
+              }}
+            />
+          )
+        ) : null}
+        {bar ? (
+          <div className="row">
+            <input
+              value={search}
+              className="mobile-field"
+              placeholder="Search for a video/song"
               onChange={(e) => {
                 setsearch(e.target.value);
               }}
-              InputProps={{ className: classes.roomText }}
-              color="secondary"
-              size="large"
-              label="Search for a video"
-              fullWidth
-              variant="outlined"
-              value={search}
-              type="text"
             />
-          </form>
+            <SendRoundedIcon
+              className="send-btn"
+              onClick={async () => {
+                await getData();
+                setsearch("");
+                setmodal(true);
+              }}
+            />
+          </div>
         ) : null}
         <div className="clmn">
-          <div className="btns"> Room Id : {props.location.state.roomId}</div>
+          {!bar ? (
+            <div className="btns"> Room Id : {props.location.state.roomId}</div>
+          ) : null}
           <div className="error">{error}</div>
         </div>
-        <div className="btns">
-          <button
-            type="button"
-            className={chat ? "msg-btn-on" : "normal-btn"}
-            onClick={() => {
-              setchat(!chat);
-            }}
-          >
-            <ChatIcon fontSize="large" />
-          </button>
-          {mute ? (
+        {!bar ? (
+          <div className="btns">
             <button
               type="button"
-              className="end-call-btn"
+              className={chat ? "msg-btn-on" : "normal-btn"}
               onClick={() => {
-                setmute(!mute);
+                setchat(!chat);
               }}
             >
-              <VolumeOffIcon fontSize="large" />
+              <ChatIcon fontSize="large" />
             </button>
-          ) : (
-            <button
-              type="button"
-              className="normal-btn"
-              onClick={() => {
-                setmute(!mute);
-              }}
-            >
-              <VolumeUpIcon fontSize="large" />
-            </button>
-          )}
+            {mute ? (
+              <button
+                type="button"
+                className="end-call-btn"
+                onClick={() => {
+                  setmute(!mute);
+                }}
+              >
+                <VolumeOffIcon fontSize="large" />
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="normal-btn"
+                onClick={() => {
+                  setmute(!mute);
+                }}
+              >
+                <VolumeUpIcon fontSize="large" />
+              </button>
+            )}
 
-          <button type="button" className="end-call-btn" onClick={leaveRoom}>
-            <CallEndIcon fontSize="large" />
-          </button>
-        </div>
+            <button type="button" className="end-call-btn" onClick={leaveRoom}>
+              <CallEndIcon fontSize="large" />
+            </button>
+          </div>
+        ) : null}
       </div>
     </div>
   );

@@ -34,7 +34,7 @@
   text-overflow: ellipsis;
   overflow-wrap: break-word;
 }
-.textfield {
+chat-cont .textfield {
   width: 18vw;
   padding: 2px;
   background-color: white;
@@ -48,3 +48,14 @@
 .btm {
   margin-top: 8vh;
 }
+
+@media (max-width: 500px) {
+  .chat-cont {
+    height: 44vh;
+  }
+  .textfield {
+    position: initial;
+    align-self: flex-end;
+    width: 90vw;
+  }
+} ;

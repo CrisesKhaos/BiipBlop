@@ -42,3 +42,15 @@
 .modal-item:hover {
   background-color: #1f1f1e;
 }
+
+@media (max-width: 500px) {
+  .modal-card {
+    padding: 10px;
+    max-width: 80vw;
+    font-size: 15px;
+    height: fit-content;
+  }
+  .modal-item {
+    padding: 0px;
+  }
+}

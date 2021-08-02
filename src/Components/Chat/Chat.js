@@ -8,7 +8,9 @@ import "./Chat.css";
 
 function Chat({ roomId, uid, name }) {
   const [currentmsg, setcurrentmsg] = useState("");
-  const [messages, setmessages] = useState({});
+  const [messages, setmessages] = useState({
+    asfd: { name: "BlipBlop", msg: "BlipBlop! BlopBlip?" },
+  });
 
   const btm = useRef(null);
   const db = firebase.database().ref();

@@ -22,9 +22,6 @@
   border-radius: 15px;
   width: 80vw;
   height: 90vh;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 .embed-overlay {
   background-color: transparent;
@@ -73,11 +70,21 @@
   width: 100vw;
   background-color: #121213;
 }
-
+.bottom-bar-alt {
+  color: aliceblue;
+  display: flex;
+  align-items: center;
+  justify-content: initial;
+  height: 10vh;
+  width: 100vw;
+  background-color: #121213;
+}
 .btns {
   margin-right: 4vw;
   margin-left: 4vw;
   font-size: 22px;
+  display: flex;
+  flex-direction: row;
 }
 
 .normal-btn {
@@ -102,7 +109,17 @@
   border: none;
   margin: 5px;
 }
-
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 75vw;
+}
+.send-btn {
+  position: relative;
+  right: 35px;
+  top: 23px;
+  color: white;
+}
 .msg-btn-on {
   background-color: #7393b3;
   color: white;
@@ -148,3 +165,82 @@
   font-size: 14px;
   color: #ff2b2b;
 }
+
+.search-alt {
+  margin: 5px;
+  margin-left: 10px;
+  font-size: 14px;
+  color: rgb(81, 236, 94);
+}
+.search {
+  margin: 5px;
+  margin-left: 10px;
+  font-size: 14px;
+}
+.mobile-field {
+  background-color: #121416;
+  color: white;
+  border: 0px;
+  border-radius: 5px;
+  padding: 15px;
+  font-size: 25px;
+  width: 75vw;
+  margin: 5px;
+  animation: 1s ease-out 0s 1 slideInFromLeft;
+  background: linear-gradient(to bottom, #414345, #232526);
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@media (max-width: 500px) {
+  .clmn {
+    margin: 0px;
+  }
+  .btns {
+    margin-left: 0px;
+    font-size: 17px;
+  }
+  .main-cont {
+    height: fit-content;
+  }
+  .one-row {
+    flex-direction: column;
+  }
+  .video-wrapper {
+    width: 100vw;
+    height: 30vh;
+  }
+  .video {
+    width: 100vw;
+    height: 30vh;
+  }
+  .embed-overlay {
+    width: 100vw;
+    height: 30vh;
+  }
+  .chat {
+    margin-top: 1vh;
+    height: 59vh;
+    width: 100vw;
+  }
+  .display-card {
+    width: 40vw;
+    font-size: 18px;
+    margin: 0px;
+    text-overflow: ellipsis;
+  }
+  .cards-cont {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 42vw;
+    width: 98vw;
+    margin: 3px;
+    justify-content: space-between;
+  }
+} ;
