@@ -93,7 +93,7 @@ function Login() {
         />
       ) : (
         <>
-          <div className="main-cont-home">
+          <div className="main-cont">
             <div
               className="login-card"
               onClick={() => {
@@ -132,6 +132,7 @@ function Login() {
                   Login with Github
                 </button>
               </div>
+              <div className="error">{error}</div>
             </div>
           </div>
           <LoginBG />
